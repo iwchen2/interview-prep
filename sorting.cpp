@@ -106,26 +106,21 @@ void mergesort(vector<int>& arr, int start, int end){
 int main(){
   srand(time(NULL));
   vector<int> vec;
-  int vec_size = 8;
+  int vec_size = 1000;
   cout << "Original vector/array" << endl;
   for(size_t i = 0; i < vec_size; i++){
-    int ele = rand() % 100;
+    int ele = rand() % 1000;
     vec.push_back(ele);
     cout << vec.back() << " ";
   }
   cout << endl;
 
-  //vector<int> res = insertion_sort(vec);
-  //vector<int> res2 = selection_sort(vec);
-  //for(auto it = res.begin(); it != res.end(); it++){
-    //cout << *it << " ";
-  //}
-  //cout << "insertion sort" << endl;
+  vector<int> res = insertion_sort(vec);
+  vector<int> res2 = selection_sort(vec);
 
-  //for(auto it = res2.begin(); it != res2.end(); it++){
-    //cout << *it << " ";
-  //}
-  //cout << "selection sort" << endl;
+  print_vector(res);
+
+  print_vector(res2);
 
   mergesort(vec, 0, vec.size()-1);
   print_vector(vec);
