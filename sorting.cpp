@@ -52,8 +52,8 @@ void merge(vector<int> arr, int start, int mid, int end){
     RHS.push_back(arr[j]);
   }
 
-  int i = 0;
-  int j = 0;
+  size_t i = 0;
+  size_t j = 0;
 
   //Compare elements from each half of the array from left to right
   for(int k = start; k < end; k++){
@@ -87,7 +87,7 @@ int main(){
   srand(time(NULL));
   vector<int> vec;
   int vec_size = 1000;
-  for(size_t i = 0; i < vec_size; i++){
+  for(int i = 0; i < vec_size; i++){
     int ele = rand() % 10000;
     vec.push_back(ele);
     cout << vec.back() << " ";
