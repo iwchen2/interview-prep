@@ -8,6 +8,13 @@
 
 using namespace std;
 
+void print_vector(vector<int> nums){
+  for(auto it = nums.begin(); it != nums.end(); it++){
+    cout << *it << " ";
+  }
+  cout << endl;
+}
+
 vector<int> insertion_sort(vector<int> arr){
   for(size_t i = 1; i < arr.size(); i++){
     int curr_val = arr[i];
@@ -38,78 +45,89 @@ vector<int> selection_sort(vector<int> arr){
   return arr;
 }
 
-void merge(vector<int> arr, int start, int mid, int end){
-  int len1 = mid - start;
-  int len2 = end - mid;
-
+void merge(vector<int>& a, int start, int mid, int end){
   //Initialize two halves of the array in separate arrays
-  vector<int> LHS(len1);
-  vector<int> RHS(len2);
-  for(int i = start; i < mid ; i++){
-    LHS.push_back(arr[i]);
+  vector<int> LHS;
+  vector<int> RHS;
+  for(int i = start; i <= mid ; i++){
+    LHS.push_back(a[i]);
   }
-  for(int j = mid; j < end; j++){
-    RHS.push_back(arr[j]);
+  for(int j = mid + 1; j <= end; j++){
+    RHS.push_back(a[j]);
   }
 
-  size_t i = 0;
-  size_t j = 0;
+  size_t i = 0; //index of left array
+  size_t j = 0; //index of right array
+  size_t k = start; //pos of entire array
 
-  //Compare elements from each half of the array from left to right
-  for(int k = start; k < end; k++){
-    if(i >= LHS.size()){
-      arr[k] = RHS[j];
-      j++;
-    }else if(j >= RHS.size()){
-      arr[k] = LHS[i];
-      i++;
-    }else if(LHS[i] <= RHS[j]){
-      arr[k] = LHS[i];
+  //left and right arrays need to be checked
+  while(i < LHS.size() && j < RHS.size()){
+    if(LHS[i] <= RHS[j]){
+      a[k] = LHS[i];
+      k++;
       i++;
     }else{
-      arr[k] = RHS[j];
+      a[k] = RHS[j];
       j++;
+      k++;
     }
+  }
+
+  //Right array is empty; just add left array elements
+  while(i < LHS.size()){
+    a[k] = LHS[i];
+    k++;
+    i++;
+  }
+
+  //Left array is empty; just add right array elements;
+  while(j < RHS.size()){
+    a[k] = RHS[j];
+    k++;
+    j++;
   }
 }
 
-void mergesort(vector<int> arr, int start, int end){
+void mergesort(vector<int>& arr, int start, int end){
   if(start < end){
     //Split array in half
-    int mid = (end + start) / 2;
+    int mid = (start+(end-1)) / 2;
+    cout << start << " " << mid << " " << end << endl;
+
     mergesort(arr, start, mid); //left half of the array
-    mergesort(arr, mid, end); //right half of the array
+    mergesort(arr, mid+1, end); //right half of the array
+
     merge(arr, start, mid, end);
   }
 }
 
+
+
 int main(){
   srand(time(NULL));
   vector<int> vec;
-  int vec_size = 1000;
-  for(int i = 0; i < vec_size; i++){
-    int ele = rand() % 10000;
+  int vec_size = 8;
+  cout << "Original vector/array" << endl;
+  for(size_t i = 0; i < vec_size; i++){
+    int ele = rand() % 100;
     vec.push_back(ele);
     cout << vec.back() << " ";
   }
-  cout << "Original vector/array" << endl;
+  cout << endl;
 
-  vector<int> res = insertion_sort(vec);
-  vector<int> res2 = selection_sort(vec);
-  for(auto it = res.begin(); it != res.end(); it++){
-    cout << *it << " ";
-  }
-  cout << "insertion sort" << endl;
+  //vector<int> res = insertion_sort(vec);
+  //vector<int> res2 = selection_sort(vec);
+  //for(auto it = res.begin(); it != res.end(); it++){
+    //cout << *it << " ";
+  //}
+  //cout << "insertion sort" << endl;
 
-  for(auto it = res2.begin(); it != res2.end(); it++){
-    cout << *it << " ";
-  }
-  cout << "selection sort" << endl;
+  //for(auto it = res2.begin(); it != res2.end(); it++){
+    //cout << *it << " ";
+  //}
+  //cout << "selection sort" << endl;
 
-  mergesort(vec, 0, vec.size());
-  for(auto it = vec.begin(); it !=res2.end(); it++){
-    cout << *it << " ";
-  }
-  cout << "Merge sort" << endl;
+  mergesort(vec, 0, vec.size()-1);
+  print_vector(vec);
   return 0;
 }
